@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login");
+    window.location.reload();
+  };
+
   return (
     <header className="header">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
@@ -15,29 +23,34 @@ function Header() {
             />
           </Link>
 
-          {/* Centered Navbar Links */}
+          {/* Center Navbar Links */}
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">
                 Home
               </Link>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/shop">
                 Shop
               </Link>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/categories">
                 Categories
               </Link>
             </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/contact">
                 Contact
               </Link>
             </li>
           </ul>
+
+          {/* Profile + Logout */}
           <div className="d-flex align-items-center">
             <span style={{ marginLeft: "15px", cursor: "pointer" }}>
               <svg
@@ -53,8 +66,9 @@ function Header() {
             </span>
 
             <button
-              className="btn btn-sm ms-3"
+              className="btn btn-info btn-sm ms-3"
               style={{ padding: "6px 12px", fontSize: "14px" }}
+              onClick={handleLogout}
             >
               Logout
             </button>
