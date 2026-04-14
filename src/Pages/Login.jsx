@@ -1,21 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Dummy credentials
-    if (email === "admin@gmail.com" && password === "1234") {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        },
+      );
+
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
       localStorage.setItem("isLoggedIn", "true");
-      navigate("/");
+
+      if (response.data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
       window.location.reload();
-    } else {
-      alert("Invalid email or password");
+    } catch (error) {
+      alert("Invalid credentials");
     }
   };
 
@@ -101,8 +116,18 @@ function Login() {
           </button>
         </form>
 
-        <p style={{ textAlign: "center", marginTop: "20px" }}>
-          Demo Login: admin@gmail.com / 1234
+        <p style={{ textAlign: "center", marginTop: "15px", color: "white" }}>
+          Don't have an account?{" "}
+          <span
+            onClick={() => navigate("/signup")}
+            style={{
+              color: "#0dcaf0",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+          >
+            Signup
+          </span>
         </p>
       </div>
     </div>
