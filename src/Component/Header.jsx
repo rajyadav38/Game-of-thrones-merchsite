@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
+
+  const role = localStorage.getItem("role");
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
+    localStorage.clear();
     navigate("/login");
     window.location.reload();
   };
@@ -50,9 +53,12 @@ function Header() {
             </li>
           </ul>
 
-          {/* Profile + Logout */}
-          <div className="d-flex align-items-center">
-            <span style={{ marginLeft: "15px", cursor: "pointer" }}>
+          {/* Profile Dropdown */}
+          <div
+            className="position-relative"
+            style={{ marginLeft: "15px", cursor: "pointer" }}
+          >
+            <span onClick={() => setShowMenu(!showMenu)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -65,13 +71,64 @@ function Header() {
               </svg>
             </span>
 
-            <button
-              className="btn btn-info btn-sm ms-3"
-              style={{ padding: "6px 12px", fontSize: "14px" }}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            {showMenu && (
+              <div
+                className="bg-dark text-light p-3 rounded shadow"
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  top: "35px",
+                  minWidth: "180px",
+                  zIndex: 1000,
+                  border: "1px solid #444",
+                }}
+              >
+                {/* Admin only options */}
+                {role === "admin" && (
+                  <>
+                    <p
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                      }}
+                      onClick={() => navigate("/admin")}
+                    >
+                      Add Product
+                    </p>
+
+                    <p
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      Manage Orders
+                    </p>
+                  </>
+                )}
+
+                {/* Common options */}
+                <p
+                  style={{
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Orders
+                </p>
+
+                <p
+                  style={{
+                    cursor: "pointer",
+                    color: "#0dcaf0",
+                    marginBottom: 0,
+                  }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </nav>

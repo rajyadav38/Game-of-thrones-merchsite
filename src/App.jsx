@@ -8,7 +8,7 @@ import Login from "./Pages/Login";
 import Categories from "./Pages/Categories";
 import Contact from "./Pages/Contact";
 import Signup from "./Pages/Signup";
-
+import AdminDashboard from "./Pages/AdminDashboard";
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -42,6 +42,7 @@ function App() {
           element={isLoggedIn ? <Contact /> : <Navigate to="/login" />}
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
 
       {isLoggedIn && <Footer />}
