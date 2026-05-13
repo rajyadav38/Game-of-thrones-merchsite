@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 function Cart() {
   const { cart, removeFromCart } = useContext(CartContext);
+
+  const navigate = useNavigate();
 
   const total = cart.reduce((acc, item) => acc + Number(item.price), 0);
 
@@ -56,7 +59,7 @@ function Cart() {
                   boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
                 }}
               >
-                {/* Left */}
+                {/* Left Side */}
                 <div
                   style={{
                     display: "flex",
@@ -91,7 +94,7 @@ function Cart() {
                   </div>
                 </div>
 
-                {/* Right */}
+                {/* Right Side */}
                 <button
                   className="btn btn-danger"
                   style={{
@@ -113,6 +116,7 @@ function Cart() {
                 padding: "30px",
                 borderRadius: "18px",
                 textAlign: "right",
+                boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
               }}
             >
               <h2
@@ -132,7 +136,15 @@ function Cart() {
                   fontWeight: "bold",
                 }}
               >
-                Proceed to Checkout
+                <a
+                  href="/checkout"
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                  }}
+                >
+                  Proceed to Checkout
+                </a>
               </button>
             </div>
           </>

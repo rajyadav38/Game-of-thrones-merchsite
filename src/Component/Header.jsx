@@ -60,37 +60,40 @@ function Header() {
           {/* Right Side */}
           <div className="d-flex align-items-center">
             {/* Cart Icon */}
-            <Link
-              to="/cart"
-              style={{
-                color: "white",
-                textDecoration: "none",
-                marginRight: "25px",
-                position: "relative",
-                fontSize: "18px",
-                fontWeight: "bold",
-              }}
-            >
-              🛒
-              {/* Cart Count */}
-              {cart.length > 0 && (
-                <span
-                  style={{
-                    position: "absolute",
-                    top: "-10px",
-                    right: "-12px",
-                    background: "#0dcaf0",
-                    color: "white",
-                    borderRadius: "50%",
-                    padding: "2px 7px",
-                    fontSize: "12px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {cart.length}
-                </span>
-              )}
-            </Link>
+            {/* Cart Icon */}
+            {role !== "admin" && (
+              <Link
+                to="/cart"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  marginRight: "25px",
+                  position: "relative",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                🛒
+                {/* Cart Count */}
+                {cart.length > 0 && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "-10px",
+                      right: "-12px",
+                      background: "#0dcaf0",
+                      color: "white",
+                      borderRadius: "50%",
+                      padding: "2px 7px",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {cart.length}
+                  </span>
+                )}
+              </Link>
+            )}
 
             {/* Profile Dropdown */}
             <div className="position-relative" style={{ cursor: "pointer" }}>
@@ -137,6 +140,7 @@ function Header() {
                           cursor: "pointer",
                           marginBottom: "10px",
                         }}
+                        onClick={() => navigate("/admin/orders")}
                       >
                         Manage Orders
                       </p>
@@ -144,14 +148,17 @@ function Header() {
                   )}
 
                   {/* Common options */}
-                  <p
-                    style={{
-                      cursor: "pointer",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    Orders
-                  </p>
+                  {role !== "admin" && (
+                    <p
+                      style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                      }}
+                      onClick={() => navigate("/orders")}
+                    >
+                      Orders
+                    </p>
+                  )}
 
                   <p
                     style={{

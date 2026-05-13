@@ -10,6 +10,9 @@ import Contact from "./Pages/Contact";
 import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Cart from "./Pages/Cart";
+import Checkout from "./Pages/Checkout";
+import AdminOrders from "./Pages/AdminOrders";
+import Orders from "./Pages/Orders";
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -45,6 +48,9 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/orders" element={<Orders />} />
       </Routes>
 
       {isLoggedIn && <Footer />}
