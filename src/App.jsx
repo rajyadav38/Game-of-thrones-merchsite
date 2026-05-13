@@ -9,6 +9,7 @@ import Categories from "./Pages/Categories";
 import Contact from "./Pages/Contact";
 import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
+import Cart from "./Pages/Cart";
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -43,6 +44,7 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
 
       {isLoggedIn && <Footer />}

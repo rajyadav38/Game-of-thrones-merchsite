@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 function Header() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
   const role = localStorage.getItem("role");
+
+  // Cart Context
+  const { cart } = useContext(CartContext);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -53,82 +57,115 @@ function Header() {
             </li>
           </ul>
 
-          {/* Profile Dropdown */}
-          <div
-            className="position-relative"
-            style={{ marginLeft: "15px", cursor: "pointer" }}
-          >
-            <span onClick={() => setShowMenu(!showMenu)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                fill="white"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                <path d="M14 14s-1-4-6-4-6 4-6 4 1 1 6 1 6-1 6-1z" />
-              </svg>
-            </span>
-
-            {showMenu && (
-              <div
-                className="bg-dark text-light p-3 rounded shadow"
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: "35px",
-                  minWidth: "180px",
-                  zIndex: 1000,
-                  border: "1px solid #444",
-                }}
-              >
-                {/* Admin only options */}
-                {role === "admin" && (
-                  <>
-                    <p
-                      style={{
-                        cursor: "pointer",
-                        marginBottom: "10px",
-                      }}
-                      onClick={() => navigate("/admin")}
-                    >
-                      Add Product
-                    </p>
-
-                    <p
-                      style={{
-                        cursor: "pointer",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      Manage Orders
-                    </p>
-                  </>
-                )}
-
-                {/* Common options */}
-                <p
+          {/* Right Side */}
+          <div className="d-flex align-items-center">
+            {/* Cart Icon */}
+            <Link
+              to="/cart"
+              style={{
+                color: "white",
+                textDecoration: "none",
+                marginRight: "25px",
+                position: "relative",
+                fontSize: "18px",
+                fontWeight: "bold",
+              }}
+            >
+              🛒
+              {/* Cart Count */}
+              {cart.length > 0 && (
+                <span
                   style={{
-                    cursor: "pointer",
-                    marginBottom: "10px",
+                    position: "absolute",
+                    top: "-10px",
+                    right: "-12px",
+                    background: "#0dcaf0",
+                    color: "white",
+                    borderRadius: "50%",
+                    padding: "2px 7px",
+                    fontSize: "12px",
+                    fontWeight: "bold",
                   }}
                 >
-                  Orders
-                </p>
+                  {cart.length}
+                </span>
+              )}
+            </Link>
 
-                <p
-                  style={{
-                    cursor: "pointer",
-                    color: "#0dcaf0",
-                    marginBottom: 0,
-                  }}
-                  onClick={handleLogout}
+            {/* Profile Dropdown */}
+            <div className="position-relative" style={{ cursor: "pointer" }}>
+              <span onClick={() => setShowMenu(!showMenu)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  fill="white"
+                  viewBox="0 0 16 16"
                 >
-                  Logout
-                </p>
-              </div>
-            )}
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                  <path d="M14 14s-1-4-6-4-6 4-6 4 1 1 6 1 6-1 6-1z" />
+                </svg>
+              </span>
+
+              {showMenu && (
+                <div
+                  className="bg-dark text-light p-3 rounded shadow"
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    top: "35px",
+                    minWidth: "180px",
+                    zIndex: 1000,
+                    border: "1px solid #444",
+                  }}
+                >
+                  {/* Admin only options */}
+                  {role === "admin" && (
+                    <>
+                      <p
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                        }}
+                        onClick={() => navigate("/admin")}
+                      >
+                        Add Product
+                      </p>
+
+                      <p
+                        style={{
+                          cursor: "pointer",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        Manage Orders
+                      </p>
+                    </>
+                  )}
+
+                  {/* Common options */}
+                  <p
+                    style={{
+                      cursor: "pointer",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Orders
+                  </p>
+
+                  <p
+                    style={{
+                      cursor: "pointer",
+                      color: "#0dcaf0",
+                      marginBottom: 0,
+                    }}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </nav>
