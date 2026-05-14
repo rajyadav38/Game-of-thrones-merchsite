@@ -59,40 +59,55 @@ function Header() {
 
           {/* Right Side */}
           <div className="d-flex align-items-center">
-            {/* Cart Icon */}
-            {/* Cart Icon */}
+            {/* USER ONLY ICONS */}
             {role !== "admin" && (
-              <Link
-                to="/cart"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  marginRight: "25px",
-                  position: "relative",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                🛒
-                {/* Cart Count */}
-                {cart.length > 0 && (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: "-10px",
-                      right: "-12px",
-                      background: "#0dcaf0",
-                      color: "white",
-                      borderRadius: "50%",
-                      padding: "2px 7px",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {cart.length}
-                  </span>
-                )}
-              </Link>
+              <>
+                {/* Wishlist */}
+                <Link
+                  to="/wishlist"
+                  style={{
+                    color: "white",
+                    marginRight: "20px",
+                    fontSize: "22px",
+                    textDecoration: "none",
+                  }}
+                >
+                  ❤️
+                </Link>
+
+                {/* Cart Icon */}
+                <Link
+                  to="/cart"
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    marginRight: "25px",
+                    position: "relative",
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  🛒
+                  {/* Cart Count */}
+                  {cart.length > 0 && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "-10px",
+                        right: "-12px",
+                        background: "#0dcaf0",
+                        color: "white",
+                        borderRadius: "50%",
+                        padding: "2px 7px",
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+              </>
             )}
 
             {/* Profile Dropdown */}
@@ -122,7 +137,7 @@ function Header() {
                     border: "1px solid #444",
                   }}
                 >
-                  {/* Admin only options */}
+                  {/* Admin only */}
                   {role === "admin" && (
                     <>
                       <p
@@ -147,7 +162,7 @@ function Header() {
                     </>
                   )}
 
-                  {/* Common options */}
+                  {/* User only */}
                   {role !== "admin" && (
                     <p
                       style={{

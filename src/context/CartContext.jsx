@@ -4,16 +4,20 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   // Load from localStorage
+  const userEmail = localStorage.getItem("email");
+
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem("cart");
+    const savedCart = localStorage.getItem(`cart_${userEmail}`);
 
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    if (userEmail) {
+      localStorage.setItem(`cart_${userEmail}`, JSON.stringify(cart));
+    }
+  }, [cart, userEmail]);
 
   // Add item
   const addToCart = (product) => {
@@ -21,7 +25,7 @@ export const CartProvider = ({ children }) => {
 
     setCart(updatedCart);
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userEmail}`, JSON.stringify(updatedCart));
 
     alert(`${product.name} added to cart`);
   };
@@ -32,14 +36,14 @@ export const CartProvider = ({ children }) => {
 
     setCart(updatedCart);
 
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userEmail}`, JSON.stringify(updatedCart));
   };
 
   // Clear cart
   const clearCart = () => {
     setCart([]);
 
-    localStorage.removeItem("cart");
+    localStorage.removeItem(`cart_${userEmail}`);
   };
 
   return (

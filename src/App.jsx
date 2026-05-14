@@ -13,6 +13,8 @@ import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
 import AdminOrders from "./Pages/AdminOrders";
 import Orders from "./Pages/Orders";
+import ProductDetails from "./Pages/ProductDetails";
+import Wishlist from "./Pages/Wishlist";
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -51,6 +53,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
 
       {isLoggedIn && <Footer />}

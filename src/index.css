@@ -205,3 +205,9 @@ body {
   transform: none !important;
   box-shadow: none !important;
 }
+
+input::placeholder,
+textarea::placeholder {
+  color: #cfcfcf !important;
+  opacity: 1;
+}

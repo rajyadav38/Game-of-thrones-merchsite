@@ -56,4 +56,32 @@ router.get("/", async (req, res) => {
   res.json(products);
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/review/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    product.reviews.push(req.body);
+
+    await product.save();
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;

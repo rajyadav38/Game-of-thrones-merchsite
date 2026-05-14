@@ -5,11 +5,13 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { CartProvider } from "./context/CartContext";
-
+import { WishlistProvider } from "./context/WishlistContext";
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
+  <WishlistProvider>
     <CartProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </CartProvider>
-  </BrowserRouter>,
+  </WishlistProvider>,
 );

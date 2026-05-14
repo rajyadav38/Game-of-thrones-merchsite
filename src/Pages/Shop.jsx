@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
 import axios from "axios";
-import { useContext } from "react";
+
+import { Link } from "react-router-dom";
+
 import { CartContext } from "../context/CartContext";
+import { WishlistContext } from "../context/WishlistContext";
 function Shop() {
   const [products, setProducts] = useState([]);
+  const { addToWishlist } = useContext(WishlistContext);
+  const [search, setSearch] = useState("");
 
+  const [category, setCategory] = useState("All");
+
+  const [sortOrder, setSortOrder] = useState("");
+
+  const { addToCart } = useContext(CartContext);
+
+  // FETCH PRODUCTS
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -15,46 +28,197 @@ function Shop() {
 
       setProducts(response.data);
     } catch (error) {
-      console.log("Error fetching products", error);
+      console.log(error);
     }
   };
-  const { addToCart } = useContext(CartContext);
+
+  // FILTER + SEARCH + SORT
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory =
+        category === "All" ? true : product.category === category;
+
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "low") {
+        return a.price - b.price;
+      }
+
+      if (sortOrder === "high") {
+        return b.price - a.price;
+      }
+
+      return 0;
+    });
 
   return (
-    <>
-      <div className="shop-container">
-        <h1 className="shop-title">Shop Game of Thrones Merchandise</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to right, #111, #1c1f26, #2a3038)",
+        padding: "50px",
+        color: "white",
+      }}
+    >
+      <div className="container">
+        {/* TITLE */}
+        <h1
+          className="text-center mb-5"
+          style={{
+            fontSize: "60px",
+            fontWeight: "bold",
+          }}
+        >
+          Shop Merchandise
+        </h1>
 
+        {/* SEARCH + FILTER */}
+        <div className="d-flex flex-wrap gap-3 mb-5 justify-content-center">
+          {/* SEARCH */}
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="form-control"
+            style={{
+              maxWidth: "300px",
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "12px",
+            }}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          {/* CATEGORY */}
+          <select
+            className="form-select"
+            style={{
+              maxWidth: "220px",
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "12px",
+            }}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="All">All Categories</option>
+
+            <option value="Clothing">Clothing</option>
+
+            <option value="Collectibles">Collectibles</option>
+
+            <option value="Accessories">Accessories</option>
+
+            <option value="Utensils">Utensils</option>
+          </select>
+
+          {/* SORT */}
+          <select
+            className="form-select"
+            style={{
+              maxWidth: "220px",
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "12px",
+            }}
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="">Sort By Price</option>
+
+            <option value="low">Low to High</option>
+
+            <option value="high">High to Low</option>
+          </select>
+        </div>
+
+        {/* PRODUCTS */}
         <div className="row">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div className="col-md-3 mb-4" key={product._id}>
-              <div className="card h-100 shadow-lg border-dark">
-                <img
-                  src={product.image}
-                  className="card-img-top"
-                  alt={product.name}
-                  style={{
-                    height: "300px",
-                    objectFit: "cover",
-                  }}
-                />
+              <div
+                className="card border-0"
+                style={{
+                  background: "rgba(0,0,0,0.75)",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
+                  transition: "0.3s ease",
+                  height: "100%",
+                }}
+              >
+                {/* IMAGE */}
+                <Link to={`/product/${product._id}`}>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    style={{
+                      height: "300px",
+                      objectFit: "cover",
+                      width: "100%",
+                      cursor: "pointer",
+                    }}
+                  />
+                </Link>
 
-                <div className="card-body text-center bg-dark text-light">
-                  <h5 className="card-title">{product.name}</h5>
+                {/* BODY */}
+                <div className="card-body text-light">
+                  {/* NAME */}
+                  <Link
+                    to={`/product/${product._id}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                    }}
+                  >
+                    <h4
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {product.name}
+                    </h4>
+                  </Link>
 
-                  <p className="card-text">₹ {product.price}</p>
-
+                  {/* CATEGORY */}
                   <p
                     style={{
-                      fontSize: "14px",
-                      color: "#ccc",
+                      color: "#0dcaf0",
                     }}
                   >
                     {product.category}
                   </p>
 
+                  {/* PRICE */}
+                  <h5
+                    className="mb-3"
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    ₹ {product.price}
+                  </h5>
                   <button
-                    className="btn btn-warning"
+                    className="btn btn-outline-danger w-100 mb-2"
+                    onClick={() => addToWishlist(product)}
+                  >
+                    ❤️ Wishlist
+                  </button>
+                  {/* BUTTON */}
+                  <button
+                    className="btn btn-info w-100"
+                    style={{
+                      padding: "10px",
+                      fontWeight: "bold",
+                    }}
                     onClick={() => addToCart(product)}
                   >
                     Add to Cart
@@ -64,8 +228,15 @@ function Shop() {
             </div>
           ))}
         </div>
+
+        {/* NO PRODUCTS */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center mt-5">
+            <h3>No products found</h3>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 

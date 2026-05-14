@@ -20,6 +20,16 @@ const productSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+
+  reviews: [
+    {
+      user: String,
+
+      comment: String,
+
+      rating: Number,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Product", productSchema);
