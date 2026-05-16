@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 function Cart() {
-  const { cart, removeFromCart } = useContext(CartContext);
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
+    useContext(CartContext);
 
   const navigate = useNavigate();
 
-  const total = cart.reduce((acc, item) => acc + Number(item.price), 0);
+  const total = cart.reduce(
+    (acc, item) => acc + Number(item.price) * (item.quantity || 1),
+    0,
+  );
 
   return (
     <div
@@ -91,6 +95,33 @@ function Cart() {
                     </p>
 
                     <h4>₹ {item.price}</h4>
+
+                    <p
+                      style={{
+                        color: "#0dcaf0",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Quantity: {item.quantity || 1}
+                    </p>
+
+                    <div className="d-flex gap-2 mt-2">
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => {
+                          increaseQuantity(item.productId);
+                        }}
+                      >
+                        +
+                      </button>
+
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => decreaseQuantity(item.productId)}
+                      >
+                        -
+                      </button>
+                    </div>
                   </div>
                 </div>
 

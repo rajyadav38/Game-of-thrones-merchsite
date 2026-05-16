@@ -72,12 +72,30 @@ router.put("/cart/add", async (req, res) => {
       email,
     });
 
-    user.cart.push(product);
+    const existingProduct = user.cart.find(
+      (item) => item.productId?.toString() === product._id.toString(),
+    );
+
+    if (existingProduct) {
+      existingProduct.quantity = (existingProduct.quantity || 1) + 1;
+    } else {
+      user.cart.push({
+        productId: product._id,
+        name: product.name,
+        image: product.image,
+        category: product.category,
+        price: product.price,
+        description: product.description,
+        quantity: 1,
+      });
+    }
 
     await user.save();
 
     res.json(user.cart);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });
@@ -98,6 +116,70 @@ router.put("/cart/remove", async (req, res) => {
 
     res.json(user.cart);
   } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/cart/decrease", async (req, res) => {
+  try {
+    const { email, productId } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    const product = user.cart.find(
+      (item) => item.productId?.toString() === productId.toString(),
+    );
+
+    if (product) {
+      if (product.quantity > 1) {
+        product.quantity -= 1;
+        user.markModified("cart");
+      } else {
+        user.cart = user.cart.filter(
+          (item) => item.productId?.toString() !== productId.toString(),
+        );
+        user.markModified("cart");
+      }
+    }
+
+    await user.save();
+
+    res.json(user.cart);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/cart/increase", async (req, res) => {
+  try {
+    const { email, productId } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+    const product = user.cart.find(
+      (item) => item.productId?.toString() === productId.toString(),
+    );
+
+    if (product) {
+      product.quantity += 1;
+      user.markModified("cart");
+    }
+
+    await user.save();
+
+    res.json(user.cart);
+  } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });

@@ -69,6 +69,30 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  const increaseQuantity = async (id) => {
+    const response = await axios.put(
+      "http://localhost:5000/api/auth/cart/increase",
+      {
+        email,
+        productId: id,
+      },
+    );
+
+    setCart(response.data);
+  };
+
+  const decreaseQuantity = async (id) => {
+    const response = await axios.put(
+      "http://localhost:5000/api/auth/cart/decrease",
+      {
+        email,
+        productId: id,
+      },
+    );
+
+    setCart(response.data);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -77,6 +101,8 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         fetchCart,
+        increaseQuantity,
+        decreaseQuantity,
       }}
     >
       {children}
