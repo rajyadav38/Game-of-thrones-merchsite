@@ -1,49 +1,72 @@
 import { createContext, useEffect, useState } from "react";
 
+import axios from "axios";
+
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Load from localStorage
-  const userEmail = localStorage.getItem("email");
+  const [cart, setCart] = useState([]);
 
-  const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem(`cart_${userEmail}`);
+  const email = localStorage.getItem("email");
 
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
-
-  // Save to localStorage
+  // FETCH CART
   useEffect(() => {
-    if (userEmail) {
-      localStorage.setItem(`cart_${userEmail}`, JSON.stringify(cart));
+    fetchCart();
+  }, []);
+
+  const fetchCart = async () => {
+    try {
+      if (!email) return;
+
+      const response = await axios.get(
+        `http://localhost:5000/api/auth/cart/${email}`,
+      );
+
+      setCart(response.data);
+    } catch (error) {
+      console.log(error);
     }
-  }, [cart, userEmail]);
-
-  // Add item
-  const addToCart = (product) => {
-    const updatedCart = [...cart, product];
-
-    setCart(updatedCart);
-
-    localStorage.setItem(`cart_${userEmail}`, JSON.stringify(updatedCart));
-
-    alert(`${product.name} added to cart`);
   };
 
-  // Remove item
-  const removeFromCart = (id) => {
-    const updatedCart = cart.filter((item) => item._id !== id);
+  // ADD TO CART
+  const addToCart = async (product) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/auth/cart/add",
+        {
+          email,
+          product,
+        },
+      );
 
-    setCart(updatedCart);
+      setCart(response.data);
 
-    localStorage.setItem(`cart_${userEmail}`, JSON.stringify(updatedCart));
+      alert(`${product.name} added to cart`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // Clear cart
-  const clearCart = () => {
+  // REMOVE
+  const removeFromCart = async (id) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/auth/cart/remove",
+        {
+          email,
+          productId: id,
+        },
+      );
+
+      setCart(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // CLEAR CART
+  const clearCart = async () => {
     setCart([]);
-
-    localStorage.removeItem(`cart_${userEmail}`);
   };
 
   return (
@@ -53,6 +76,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        fetchCart,
       }}
     >
       {children}

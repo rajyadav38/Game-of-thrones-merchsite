@@ -1,65 +1,67 @@
 import { createContext, useEffect, useState } from "react";
 
+import axios from "axios";
+
 export const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
-  const userEmail = localStorage.getItem("email");
+  const [wishlist, setWishlist] = useState([]);
 
-  // LOAD USER WISHLIST
-  const [wishlist, setWishlist] = useState(() => {
-    if (!userEmail) return [];
+  const email = localStorage.getItem("email");
 
-    const savedWishlist = localStorage.getItem(`wishlist_${userEmail}`);
-
-    return savedWishlist ? JSON.parse(savedWishlist) : [];
-  });
-
-  // SAVE USER WISHLIST
+  // FETCH WISHLIST
   useEffect(() => {
-    if (userEmail) {
-      localStorage.setItem(`wishlist_${userEmail}`, JSON.stringify(wishlist));
+    fetchWishlist();
+  }, []);
+
+  const fetchWishlist = async () => {
+    try {
+      if (!email) return;
+
+      const response = await axios.get(
+        `http://localhost:5000/api/auth/wishlist/${email}`,
+      );
+
+      setWishlist(response.data);
+    } catch (error) {
+      console.log(error);
     }
-  }, [wishlist, userEmail]);
-
-  // ADD TO WISHLIST
-  const addToWishlist = (product) => {
-    const alreadyExists = wishlist.find((item) => item._id === product._id);
-
-    if (alreadyExists) {
-      alert("Already in wishlist");
-
-      return;
-    }
-
-    const updatedWishlist = [...wishlist, product];
-
-    setWishlist(updatedWishlist);
-
-    localStorage.setItem(
-      `wishlist_${userEmail}`,
-      JSON.stringify(updatedWishlist),
-    );
-
-    alert(`${product.name} added to wishlist`);
   };
 
-  // REMOVE FROM WISHLIST
-  const removeFromWishlist = (id) => {
-    const updatedWishlist = wishlist.filter((item) => item._id !== id);
+  // ADD
+  const addToWishlist = async (product) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/auth/wishlist/add",
+        {
+          email,
+          product,
+        },
+      );
 
-    setWishlist(updatedWishlist);
+      setWishlist(response.data);
 
-    localStorage.setItem(
-      `wishlist_${userEmail}`,
-      JSON.stringify(updatedWishlist),
-    );
+      alert(`${product.name} added to wishlist`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // CLEAR WISHLIST
-  const clearWishlist = () => {
-    setWishlist([]);
+  // REMOVE
+  const removeFromWishlist = async (id) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/auth/wishlist/remove",
+        {
+          email,
+          productId: id,
+        },
+      );
 
-    localStorage.removeItem(`wishlist_${userEmail}`);
+      setWishlist(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -68,12 +70,10 @@ export const WishlistProvider = ({ children }) => {
         wishlist,
         addToWishlist,
         removeFromWishlist,
-        clearWishlist,
+        fetchWishlist,
       }}
     >
       {children}
     </WishlistContext.Provider>
   );
 };
-
-export default WishlistProvider;

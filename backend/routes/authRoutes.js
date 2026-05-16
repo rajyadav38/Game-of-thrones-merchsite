@@ -50,4 +50,118 @@ router.post("/login", async (req, res) => {
   });
 });
 
+router.get("/cart/:email", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.params.email,
+    });
+
+    res.json(user.cart);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/cart/add", async (req, res) => {
+  try {
+    const { email, product } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    user.cart.push(product);
+
+    await user.save();
+
+    res.json(user.cart);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/cart/remove", async (req, res) => {
+  try {
+    const { email, productId } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    user.cart = user.cart.filter((item) => item._id !== productId);
+
+    await user.save();
+
+    res.json(user.cart);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.get("/wishlist/:email", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      email: req.params.email,
+    });
+
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/wishlist/add", async (req, res) => {
+  try {
+    const { email, product } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    const exists = user.wishlist.find((item) => item._id === product._id);
+
+    if (exists) {
+      return res.json(user.wishlist);
+    }
+
+    user.wishlist.push(product);
+
+    await user.save();
+
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
+router.put("/wishlist/remove", async (req, res) => {
+  try {
+    const { email, productId } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    user.wishlist = user.wishlist.filter((item) => item._id !== productId);
+
+    await user.save();
+
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;
