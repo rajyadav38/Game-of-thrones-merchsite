@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,16 +23,16 @@ function Login() {
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("email", response.data.email);
       localStorage.setItem("isLoggedIn", "true");
-
-      if (response.data.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-
-      window.location.reload();
+      toast.success("Login successful");
+      setTimeout(() => {
+        if (response.data.role === "admin") {
+          window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
+      }, 1500);
     } catch (error) {
-      alert("Invalid credentials");
+      toast.error("Invalid credentials");
     }
   };
 

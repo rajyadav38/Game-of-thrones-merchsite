@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
@@ -41,7 +41,7 @@ export const WishlistProvider = ({ children }) => {
 
       setWishlist(response.data);
 
-      alert(`${product.name} added to wishlist`);
+      toast.success(`${product.name} added to wishlist`);
     } catch (error) {
       console.log(error);
     }

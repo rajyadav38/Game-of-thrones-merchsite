@@ -15,6 +15,9 @@ import AdminOrders from "./Pages/AdminOrders";
 import Orders from "./Pages/Orders";
 import ProductDetails from "./Pages/ProductDetails";
 import Wishlist from "./Pages/Wishlist";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
@@ -58,6 +61,7 @@ function App() {
       </Routes>
 
       {isLoggedIn && <Footer />}
+      <ToastContainer position="top-right" autoClose={2000} theme="dark" />
     </>
   );
 }

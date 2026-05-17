@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function Checkout() {
   const { cart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Checkout() {
         total,
       });
 
-      alert("Order placed successfully");
+      toast.success("Order placed successfully");
 
       // CLEAR CART
       clearCart();

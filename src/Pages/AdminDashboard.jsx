@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState({
@@ -32,30 +32,70 @@ function AdminDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editId) {
-      await axios.put(`http://localhost:5000/api/products/${editId}`, product);
-      alert("Product updated");
-      setEditId(null);
-    } else {
-      await axios.post("http://localhost:5000/api/products/add", product);
-      alert("Product added");
+    try {
+      // UPDATE PRODUCT
+      if (editId) {
+        await axios.put(
+          `http://localhost:5000/api/products/${editId}`,
+
+          product,
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+
+        toast.success("Product updated");
+
+        setEditId(null);
+      } else {
+        // ADD PRODUCT
+        await axios.post(
+          "http://localhost:5000/api/products/add",
+
+          product,
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+
+        toast.success("Product added");
+      }
+
+      // CLEAR FORM
+      setProduct({
+        name: "",
+        price: "",
+        image: "",
+        category: "",
+        description: "",
+      });
+
+      fetchProducts();
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Something went wrong");
     }
-
-    setProduct({
-      name: "",
-      price: "",
-      image: "",
-      category: "",
-      description: "",
-    });
-
-    fetchProducts();
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/products/${id}`);
+    await axios.delete(
+      `http://localhost:5000/api/products/${id}`,
 
-    alert("Product deleted");
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+    );
+
+    toast.success("Product deleted");
     fetchProducts();
   };
 

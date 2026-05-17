@@ -2,9 +2,9 @@ const express = require("express");
 const Product = require("../models/Product");
 
 const router = express.Router();
-
+const { verifyToken, verifyAdmin } = require("../middleware/authMiddleware");
 // Add product
-router.post("/add", async (req, res) => {
+router.post("/add", verifyAdmin, async (req, res) => {
   try {
     const product = new Product(req.body);
     await product.save();
@@ -20,7 +20,7 @@ router.post("/add", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyAdmin, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
 
@@ -34,7 +34,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyAdmin, async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,

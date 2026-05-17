@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-
+import { toast } from "react-toastify";
 import axios from "axios";
 
 export const CartContext = createContext();
@@ -41,7 +41,7 @@ export const CartProvider = ({ children }) => {
 
       setCart(response.data);
 
-      alert(`${product.name} added to cart`);
+      toast.success(`${product.name} added to cart`);
     } catch (error) {
       console.log(error);
     }
