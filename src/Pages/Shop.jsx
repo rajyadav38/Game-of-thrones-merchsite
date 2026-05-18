@@ -141,18 +141,20 @@ function Shop() {
         </div>
 
         {/* PRODUCTS */}
-        <div className="row">
+        <div className="row g-4">
           {filteredProducts.map((product) => (
-            <div className="col-md-3 mb-4" key={product._id}>
+            <div
+              className="col-12 col-sm-6 col-md-4 col-lg-3"
+              key={product._id}
+            >
               <div
-                className="card border-0"
+                className="card border-0 h-100"
                 style={{
                   background: "rgba(0,0,0,0.75)",
                   borderRadius: "20px",
                   overflow: "hidden",
                   boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
                   transition: "0.3s ease",
-                  height: "100%",
                 }}
               >
                 {/* IMAGE */}
@@ -161,7 +163,7 @@ function Shop() {
                     src={product.image}
                     alt={product.name}
                     style={{
-                      height: "300px",
+                      height: window.innerWidth < 768 ? "240px" : "300px",
                       objectFit: "cover",
                       width: "100%",
                       cursor: "pointer",
@@ -170,7 +172,12 @@ function Shop() {
                 </Link>
 
                 {/* BODY */}
-                <div className="card-body text-light">
+                <div
+                  className="card-body text-light d-flex flex-column"
+                  style={{
+                    padding: "20px",
+                  }}
+                >
                   {/* NAME */}
                   <Link
                     to={`/product/${product._id}`}
@@ -182,6 +189,7 @@ function Shop() {
                     <h4
                       style={{
                         fontWeight: "bold",
+                        fontSize: window.innerWidth < 768 ? "22px" : "26px",
                       }}
                     >
                       {product.name}
@@ -192,6 +200,7 @@ function Shop() {
                   <p
                     style={{
                       color: "#0dcaf0",
+                      fontSize: "15px",
                     }}
                   >
                     {product.category}
@@ -202,27 +211,38 @@ function Shop() {
                     className="mb-3"
                     style={{
                       fontWeight: "bold",
+                      fontSize: "24px",
                     }}
                   >
                     ₹ {product.price}
                   </h5>
-                  <button
-                    className="btn btn-outline-danger w-100 mb-2"
-                    onClick={() => addToWishlist(product)}
-                  >
-                    ❤️ Wishlist
-                  </button>
-                  {/* BUTTON */}
-                  <button
-                    className="btn btn-info w-100"
-                    style={{
-                      padding: "10px",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() => addToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
+
+                  {/* BUTTONS */}
+                  <div className="mt-auto">
+                    <button
+                      className="btn btn-outline-danger w-100 mb-2"
+                      style={{
+                        padding: "10px",
+                        fontWeight: "bold",
+                        borderRadius: "10px",
+                      }}
+                      onClick={() => addToWishlist(product)}
+                    >
+                      ❤️ Wishlist
+                    </button>
+
+                    <button
+                      className="btn btn-info w-100"
+                      style={{
+                        padding: "10px",
+                        fontWeight: "bold",
+                        borderRadius: "10px",
+                      }}
+                      onClick={() => addToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

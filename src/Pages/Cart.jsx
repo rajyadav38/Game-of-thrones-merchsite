@@ -19,7 +19,7 @@ function Cart() {
         minHeight: "100vh",
         background: "linear-gradient(to right, #111, #1c1f26, #2a3038)",
         color: "white",
-        padding: "40px",
+        padding: window.innerWidth < 768 ? "20px" : "40px",
       }}
     >
       <div
@@ -30,9 +30,10 @@ function Cart() {
       >
         <h1
           style={{
-            fontSize: "60px",
+            fontSize: window.innerWidth < 768 ? "42px" : "60px",
             fontWeight: "bold",
             marginBottom: "40px",
+            textAlign: window.innerWidth < 768 ? "center" : "left",
           }}
         >
           Your Cart
@@ -53,37 +54,43 @@ function Cart() {
               <div
                 key={index}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
                   background: "rgba(0,0,0,0.75)",
-                  padding: "20px",
+                  padding: window.innerWidth < 768 ? "20px" : "30px",
                   borderRadius: "18px",
                   marginBottom: "25px",
                   boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
                 }}
               >
-                {/* Left Side */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "20px",
-                  }}
-                >
+                <div className="d-flex flex-column flex-md-row align-items-center gap-4">
+                  {/* IMAGE */}
                   <img
                     src={item.image}
                     alt={item.name}
                     style={{
-                      width: "140px",
-                      height: "140px",
+                      width: window.innerWidth < 768 ? "100%" : "180px",
+                      maxWidth: "220px",
+                      height: "220px",
                       objectFit: "cover",
-                      borderRadius: "12px",
+                      borderRadius: "15px",
                     }}
                   />
 
-                  <div>
-                    <h3>{item.name}</h3>
+                  {/* DETAILS */}
+                  <div
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                      textAlign: window.innerWidth < 768 ? "center" : "left",
+                    }}
+                  >
+                    <h2
+                      style={{
+                        fontSize: window.innerWidth < 768 ? "28px" : "36px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {item.name}
+                    </h2>
 
                     <p
                       style={{
@@ -105,77 +112,76 @@ function Cart() {
                       Quantity: {item.quantity || 1}
                     </p>
 
-                    <div className="d-flex gap-2 mt-2">
+                    {/* QUANTITY BUTTONS */}
+                    <div className="d-flex justify-content-center justify-content-md-start align-items-center gap-3 mt-3 flex-wrap">
                       <button
-                        className="btn btn-sm btn-info"
+                        className="btn btn-danger"
+                        onClick={() => decreaseQuantity(item.productId)}
+                      >
+                        -
+                      </button>
+
+                      <h5>{item.quantity}</h5>
+
+                      <button
+                        className="btn btn-success"
                         onClick={() => {
                           increaseQuantity(item.productId);
                         }}
                       >
                         +
                       </button>
-
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => decreaseQuantity(item.productId)}
-                      >
-                        -
-                      </button>
                     </div>
                   </div>
-                </div>
 
-                {/* Right Side */}
-                <button
-                  className="btn btn-danger"
-                  style={{
-                    padding: "10px 20px",
-                    fontSize: "18px",
-                  }}
-                  onClick={() => removeFromCart(item._id)}
-                >
-                  Remove
-                </button>
+                  {/* REMOVE BUTTON */}
+                  <button
+                    className="btn btn-danger"
+                    style={{
+                      padding: "12px 20px",
+                      fontSize: "16px",
+                      width: window.innerWidth < 768 ? "100%" : "auto",
+                    }}
+                    onClick={() => removeFromCart(item._id)}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             ))}
 
-            {/* Total Section */}
+            {/* TOTAL SECTION */}
             <div
               style={{
-                marginTop: "40px",
                 background: "rgba(0,0,0,0.75)",
-                padding: "30px",
-                borderRadius: "18px",
-                textAlign: "right",
+                padding: window.innerWidth < 768 ? "25px" : "40px",
+                borderRadius: "20px",
+                marginTop: "40px",
+                textAlign: "center",
                 boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
               }}
             >
               <h2
                 style={{
-                  marginBottom: "20px",
+                  marginBottom: "25px",
                   fontWeight: "bold",
+                  fontSize: window.innerWidth < 768 ? "32px" : "45px",
                 }}
               >
                 Total: ₹ {total}
               </h2>
 
               <button
-                className="btn btn-info"
+                className="btn btn-info w-100"
                 style={{
-                  padding: "12px 35px",
-                  fontSize: "20px",
+                  padding: "14px",
+                  fontSize: "18px",
                   fontWeight: "bold",
+                  borderRadius: "12px",
                 }}
+                onClick={() => navigate("/checkout")}
               >
-                <a
-                  href="/checkout"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                >
-                  Proceed to Checkout
-                </a>
+                Proceed to Checkout
               </button>
             </div>
           </>

@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import axios from "axios";
-
 import { useParams } from "react-router-dom";
-
 import { CartContext } from "../context/CartContext";
 
 function ProductDetails() {
@@ -66,7 +63,7 @@ function ProductDetails() {
       style={{
         minHeight: "100vh",
         background: "linear-gradient(to right, #111, #1c1f26, #2a3038)",
-        padding: "60px",
+        padding: window.innerWidth < 768 ? "20px" : "60px",
         color: "white",
       }}
     >
@@ -81,15 +78,15 @@ function ProductDetails() {
         }}
       >
         {/* TOP SECTION */}
-        <div className="row g-0">
+        <div className="row align-items-center g-0">
           {/* IMAGE */}
-          <div className="col-md-6">
+          <div className="col-12 col-lg-6 text-center">
             <img
               src={product.image}
               alt={product.name}
               style={{
                 width: "100%",
-                height: "100%",
+                maxWidth: "600px",
                 objectFit: "cover",
               }}
             />
@@ -97,14 +94,14 @@ function ProductDetails() {
 
           {/* DETAILS */}
           <div
-            className="col-md-6"
+            className="col-12 col-lg-6"
             style={{
-              padding: "50px",
+              padding: window.innerWidth < 768 ? "25px" : "50px",
             }}
           >
             <h1
               style={{
-                fontSize: "60px",
+                fontSize: window.innerWidth < 768 ? "42px" : "60px",
                 fontWeight: "bold",
                 marginBottom: "20px",
               }}
@@ -115,7 +112,7 @@ function ProductDetails() {
             <p
               style={{
                 color: "#0dcaf0",
-                fontSize: "22px",
+                fontSize: window.innerWidth < 768 ? "18px" : "22px",
                 marginBottom: "20px",
               }}
             >
@@ -126,6 +123,7 @@ function ProductDetails() {
               style={{
                 marginBottom: "30px",
                 fontWeight: "bold",
+                fontSize: window.innerWidth < 768 ? "34px" : "40px",
               }}
             >
               ₹ {product.price}
@@ -133,7 +131,7 @@ function ProductDetails() {
 
             <p
               style={{
-                fontSize: "20px",
+                fontSize: window.innerWidth < 768 ? "16px" : "20px",
                 lineHeight: "1.9",
                 color: "#d1d1d1",
                 marginBottom: "40px",
@@ -142,26 +140,29 @@ function ProductDetails() {
               {product.description}
             </p>
 
-            {/* ADD TO CART */}
-            <button
-              className="btn btn-info"
-              style={{
-                padding: "14px 40px",
-                fontSize: "20px",
-                fontWeight: "bold",
-                borderRadius: "12px",
-              }}
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
+            {/* BUTTONS */}
+            <div className="d-flex flex-column flex-sm-row gap-3">
+              <button
+                className="btn btn-info"
+                style={{
+                  padding: "14px 30px",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  borderRadius: "12px",
+                  width: "100%",
+                }}
+                onClick={() => addToCart(product)}
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
 
         {/* REVIEWS SECTION */}
         <div
           style={{
-            padding: "50px",
+            padding: window.innerWidth < 768 ? "25px" : "50px",
             borderTop: "1px solid #333",
           }}
         >
@@ -169,6 +170,7 @@ function ProductDetails() {
             style={{
               marginBottom: "35px",
               fontWeight: "bold",
+              fontSize: window.innerWidth < 768 ? "36px" : "45px",
             }}
           >
             Reviews & Ratings
@@ -178,7 +180,7 @@ function ProductDetails() {
           <div
             style={{
               background: "#1a1a1a",
-              padding: "30px",
+              padding: window.innerWidth < 768 ? "20px" : "30px",
               borderRadius: "20px",
               marginBottom: "50px",
             }}
@@ -220,6 +222,7 @@ function ProductDetails() {
                 minHeight: "120px",
               }}
             />
+
             <select
               className="form-select mb-4"
               value={review.rating}
@@ -237,22 +240,19 @@ function ProductDetails() {
               }}
             >
               <option value="5">⭐⭐⭐⭐⭐</option>
-
               <option value="4">⭐⭐⭐⭐</option>
-
               <option value="3">⭐⭐⭐</option>
-
               <option value="2">⭐⭐</option>
-
               <option value="1">⭐</option>
             </select>
 
             <button
-              className="btn btn-info"
+              className="btn btn-info w-100"
               style={{
-                padding: "12px 30px",
+                padding: "14px",
                 fontWeight: "bold",
                 borderRadius: "10px",
+                fontSize: "18px",
               }}
               onClick={submitReview}
             >
@@ -277,13 +277,19 @@ function ProductDetails() {
                 key={index}
                 style={{
                   background: "#1f1f1f",
-                  padding: "25px",
+                  padding: window.innerWidth < 768 ? "18px" : "25px",
                   borderRadius: "18px",
                   marginBottom: "20px",
                 }}
               >
                 <div className="d-flex justify-content-between align-items-center mb-2">
-                  <h4>{item.user}</h4>
+                  <h4
+                    style={{
+                      fontSize: window.innerWidth < 768 ? "20px" : "28px",
+                    }}
+                  >
+                    {item.user}
+                  </h4>
 
                   <h5>{"⭐".repeat(item.rating)}</h5>
                 </div>
@@ -293,6 +299,7 @@ function ProductDetails() {
                     color: "#d1d1d1",
                     marginBottom: 0,
                     lineHeight: "1.8",
+                    fontSize: window.innerWidth < 768 ? "15px" : "18px",
                   }}
                 >
                   {item.comment}

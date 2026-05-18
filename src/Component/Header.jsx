@@ -1,73 +1,90 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CartContext } from "../context/CartContext";
 
 function Header() {
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const role = localStorage.getItem("role");
-
-  // Cart Context
-  const { cart } = useContext(CartContext);
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
 
   const handleLogout = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("email");
+    localStorage.removeItem("isLoggedIn");
+
     navigate("/login");
+
     window.location.reload();
   };
 
   return (
-    <header className="header">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-        <div className="container-fluid">
-          {/* Logo */}
-          <Link className="navbar-brand" to="/">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Logo_Game_of_Thrones.png"
-              alt="Game of Thrones Logo"
-              style={{ height: "50px", width: "200px" }}
-            />
-          </Link>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 py-3">
+      <div className="container-fluid">
+        {/* LOGO */}
+        <Link className="navbar-brand" to="/">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Logo_Game_of_Thrones.png"
+            alt="logo"
+            style={{
+              height: "40px",
+              width: "160px",
+              objectFit: "contain",
+            }}
+          />
+        </Link>
 
-          {/* Center Navbar Links */}
-          <ul className="navbar-nav mx-auto">
+        {/* MOBILE TOGGLE */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* NAVBAR CONTENT */}
+        <div className="collapse navbar-collapse" id="navbarContent">
+          {/* CENTER LINKS */}
+          <ul className="navbar-nav mx-auto text-center">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link text-white fw-bold" to="/">
                 Home
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/shop">
+              <Link className="nav-link text-white fw-bold" to="/shop">
                 Shop
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/categories">
+              <Link className="nav-link text-white fw-bold" to="/categories">
                 Categories
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/contact">
+              <Link className="nav-link text-white fw-bold" to="/contact">
                 Contact
               </Link>
             </li>
           </ul>
 
-          {/* Right Side */}
-          <div className="d-flex align-items-center">
-            {/* USER ONLY ICONS */}
+          {/* RIGHT SIDE ICONS */}
+          <div className="d-flex align-items-center justify-content-center gap-3 mt-3 mt-lg-0">
+            {/* HIDE FOR ADMIN */}
             {role !== "admin" && (
               <>
-                {/* Wishlist */}
+                {/* WISHLIST */}
                 <Link
                   to="/wishlist"
                   style={{
                     color: "white",
-                    marginRight: "20px",
                     fontSize: "22px",
                     textDecoration: "none",
                   }}
@@ -75,123 +92,97 @@ function Header() {
                   ❤️
                 </Link>
 
-                {/* Cart Icon */}
+                {/* CART */}
                 <Link
                   to="/cart"
                   style={{
                     color: "white",
+                    fontSize: "22px",
                     textDecoration: "none",
-                    marginRight: "25px",
-                    position: "relative",
-                    fontSize: "18px",
-                    fontWeight: "bold",
                   }}
                 >
                   🛒
-                  {/* Cart Count */}
-                  {cart.length > 0 && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: "-10px",
-                        right: "-12px",
-                        background: "#0dcaf0",
-                        color: "white",
-                        borderRadius: "50%",
-                        padding: "2px 7px",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {cart.length}
-                    </span>
-                  )}
                 </Link>
               </>
             )}
 
-            {/* Profile Dropdown */}
-            <div className="position-relative" style={{ cursor: "pointer" }}>
-              <span onClick={() => setShowMenu(!showMenu)}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  fill="white"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  <path d="M14 14s-1-4-6-4-6 4-6 4 1 1 6 1 6-1 6-1z" />
-                </svg>
-              </span>
-
-              {showMenu && (
-                <div
-                  className="bg-dark text-light p-3 rounded shadow"
+            {/* PROFILE */}
+            {isLoggedIn && (
+              <div className="position-relative" style={{ cursor: "pointer" }}>
+                <i
+                  className="bi bi-person-fill"
                   style={{
-                    position: "absolute",
-                    right: 0,
-                    top: "35px",
-                    minWidth: "180px",
-                    zIndex: 1000,
-                    border: "1px solid #444",
+                    color: "white",
+                    fontSize: "24px",
                   }}
-                >
-                  {/* Admin only */}
-                  {role === "admin" && (
-                    <>
-                      <p
-                        style={{
-                          cursor: "pointer",
-                          marginBottom: "10px",
-                        }}
-                        onClick={() => navigate("/admin")}
-                      >
-                        Add Product
-                      </p>
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                ></i>
 
-                      <p
-                        style={{
-                          cursor: "pointer",
-                          marginBottom: "10px",
-                        }}
-                        onClick={() => navigate("/admin/orders")}
-                      >
-                        Manage Orders
-                      </p>
-                    </>
-                  )}
-
-                  {/* User only */}
-                  {role !== "admin" && (
-                    <p
-                      style={{
-                        cursor: "pointer",
-                        marginBottom: "10px",
-                      }}
-                      onClick={() => navigate("/orders")}
-                    >
-                      Orders
-                    </p>
-                  )}
-
-                  <p
+                {dropdownOpen && (
+                  <div
                     style={{
-                      cursor: "pointer",
-                      color: "#0dcaf0",
-                      marginBottom: 0,
+                      position: "absolute",
+                      right: 0,
+                      top: "40px",
+                      background: "#1f1f1f",
+                      padding: "15px",
+                      borderRadius: "10px",
+                      minWidth: "180px",
+                      zIndex: 999,
                     }}
-                    onClick={handleLogout}
                   >
-                    Logout
-                  </p>
-                </div>
-              )}
-            </div>
+                    {role === "admin" ? (
+                      <>
+                        <p
+                          style={{
+                            color: "white",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => navigate("/admin")}
+                        >
+                          Add Product
+                        </p>
+
+                        <p
+                          style={{
+                            color: "white",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => navigate("/manage-orders")}
+                        >
+                          Manage Orders
+                        </p>
+                      </>
+                    ) : (
+                      <p
+                        style={{
+                          color: "white",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => navigate("/orders")}
+                      >
+                        Orders
+                      </p>
+                    )}
+
+                    <p
+                      onClick={handleLogout}
+                      style={{
+                        color: "#0dcaf0",
+                        cursor: "pointer",
+                        marginBottom: 0,
+                      }}
+                    >
+                      Logout
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 }
 

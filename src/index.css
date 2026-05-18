@@ -211,3 +211,55 @@ textarea::placeholder {
   color: #cfcfcf !important;
   opacity: 1;
 }
+
+.navbar-nav .nav-link {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav {
+    margin-top: 20px;
+  }
+
+  .navbar-nav .nav-link {
+    margin: 10px 0;
+    font-size: 20px;
+  }
+
+  .navbar-brand img {
+    width: 130px !important;
+    height: 35px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+
+  h1 {
+    font-size: 38px !important;
+  }
+
+  h2 {
+    font-size: 32px !important;
+  }
+
+  h3 {
+    font-size: 26px !important;
+  }
+
+  h4 {
+    font-size: 22px !important;
+  }
+
+  p {
+    font-size: 15px !important;
+  }
+
+  button {
+    font-size: 15px !important;
+  }
+}

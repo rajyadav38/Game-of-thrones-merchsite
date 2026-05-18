@@ -11,7 +11,7 @@ import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
-import AdminOrders from "./Pages/AdminOrders";
+import AdminOrders from "./pages/AdminOrders";
 import Orders from "./Pages/Orders";
 import ProductDetails from "./Pages/ProductDetails";
 import Wishlist from "./Pages/Wishlist";
@@ -54,7 +54,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/manage-orders" element={<AdminOrders />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/wishlist" element={<Wishlist />} />

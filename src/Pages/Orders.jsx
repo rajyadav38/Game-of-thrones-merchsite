@@ -11,7 +11,16 @@ function Orders() {
   }, []);
 
   const fetchOrders = async () => {
-    const response = await axios.get("http://localhost:5000/api/orders");
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get(
+      `http://localhost:5000/api/orders/user/${localStorage.getItem("email")}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     const userOrders = response.data.filter(
       (order) => order.userEmail === email,

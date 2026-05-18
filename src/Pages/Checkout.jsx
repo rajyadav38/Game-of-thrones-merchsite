@@ -3,8 +3,10 @@ import axios from "axios";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 function Checkout() {
   const { cart, clearCart } = useContext(CartContext);
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -13,7 +15,10 @@ function Checkout() {
     phone: "",
   });
 
-  const total = cart.reduce((acc, item) => acc + Number(item.price), 0);
+  const total = cart.reduce(
+    (acc, item) => acc + Number(item.price) * (item.quantity || 1),
+    0,
+  );
 
   const handleChange = (e) => {
     setFormData({
@@ -24,29 +29,39 @@ function Checkout() {
 
   const handleOrder = async (e) => {
     e.preventDefault();
-
+    const token = localStorage.getItem("token");
     try {
-      await axios.post("http://localhost:5000/api/orders", {
-        ...formData,
+      await axios.post(
+        "http://localhost:5000/api/orders",
 
-        userEmail: localStorage.getItem("email"),
+        {
+          ...formData,
 
-        items: cart,
+          userEmail: localStorage.getItem("email"),
 
-        total,
-      });
+          items: cart,
+
+          total,
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
       toast.success("Order placed successfully");
 
       // CLEAR CART
       clearCart();
 
-      // Redirect
+      // REDIRECT
       navigate("/orders");
     } catch (error) {
       console.log(error);
 
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -56,7 +71,7 @@ function Checkout() {
         minHeight: "100vh",
         background: "linear-gradient(to right, #111, #1c1f26, #2a3038)",
         color: "white",
-        padding: "40px",
+        padding: window.innerWidth < 768 ? "20px" : "40px",
       }}
     >
       <div
@@ -64,39 +79,100 @@ function Checkout() {
           maxWidth: "700px",
           margin: "0 auto",
           background: "rgba(0,0,0,0.75)",
-          padding: "40px",
+          padding: window.innerWidth < 768 ? "25px" : "40px",
           borderRadius: "20px",
+          boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
         }}
       >
-        <h1 className="mb-4">Checkout</h1>
+        {/* TITLE */}
+        <h1
+          className="mb-4"
+          style={{
+            fontSize: window.innerWidth < 768 ? "40px" : "55px",
+
+            fontWeight: "bold",
+
+            textAlign: "center",
+          }}
+        >
+          Checkout
+        </h1>
 
         <form onSubmit={handleOrder}>
+          {/* NAME */}
           <input
             type="text"
             name="customerName"
             placeholder="Full Name"
             className="form-control mb-3"
             onChange={handleChange}
+            style={{
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "14px",
+              borderRadius: "10px",
+            }}
           />
 
+          {/* ADDRESS */}
           <textarea
             name="address"
             placeholder="Shipping Address"
             className="form-control mb-3"
             onChange={handleChange}
+            style={{
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "14px",
+              borderRadius: "10px",
+              minHeight: "120px",
+            }}
           />
 
+          {/* PHONE */}
           <input
             type="text"
             name="phone"
             placeholder="Phone Number"
             className="form-control mb-4"
             onChange={handleChange}
+            style={{
+              background: "#1f1f1f",
+              color: "white",
+              border: "1px solid #444",
+              padding: "14px",
+              borderRadius: "10px",
+            }}
           />
 
-          <h3 className="mb-4">Total: ₹ {total}</h3>
+          {/* TOTAL */}
+          <h3
+            className="mb-4"
+            style={{
+              fontSize: window.innerWidth < 768 ? "28px" : "38px",
 
-          <button className="btn btn-info w-100 py-2">Place Order</button>
+              fontWeight: "bold",
+
+              textAlign: "center",
+            }}
+          >
+            Total: ₹ {total}
+          </h3>
+
+          {/* BUTTON */}
+          <button
+            className="btn btn-info w-100"
+            style={{
+              padding: "14px",
+              fontSize: "18px",
+              fontWeight: "bold",
+              borderRadius: "12px",
+            }}
+          >
+            Place Order
+          </button>
         </form>
       </div>
     </div>
