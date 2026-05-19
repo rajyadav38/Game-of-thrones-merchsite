@@ -136,7 +136,22 @@ function Header() {
                         <p
                           style={{
                             color: "white",
+                            padding: "10px",
+                            borderRadius: "8px",
                             cursor: "pointer",
+                            marginBottom: "5px",
+                          }}
+                          onClick={() => navigate("/admin-messages")}
+                        >
+                          Customer Messages
+                        </p>
+                        <p
+                          style={{
+                            color: "white",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            cursor: "pointer",
+                            marginBottom: "5px",
                           }}
                           onClick={() => navigate("/admin")}
                         >
@@ -146,7 +161,10 @@ function Header() {
                         <p
                           style={{
                             color: "white",
+                            padding: "10px",
+                            borderRadius: "8px",
                             cursor: "pointer",
+                            marginBottom: "5px",
                           }}
                           onClick={() => navigate("/manage-orders")}
                         >
@@ -154,23 +172,47 @@ function Header() {
                         </p>
                       </>
                     ) : (
-                      <p
-                        style={{
-                          color: "white",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => navigate("/orders")}
-                      >
-                        Orders
-                      </p>
+                      <>
+                        {/* PROFILE */}
+                        <p
+                          style={{
+                            color: "white",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            cursor: "pointer",
+                            marginBottom: "5px",
+                          }}
+                          onClick={() => navigate("/profile")}
+                        >
+                          My Profile
+                        </p>
+
+                        {/* ORDERS */}
+                        <p
+                          style={{
+                            color: "white",
+                            padding: "10px",
+                            borderRadius: "8px",
+                            cursor: "pointer",
+                            marginBottom: "5px",
+                          }}
+                          onClick={() => navigate("/orders")}
+                        >
+                          Orders
+                        </p>
+                      </>
                     )}
 
+                    {/* LOGOUT */}
                     <p
                       onClick={handleLogout}
                       style={{
                         color: "#0dcaf0",
+                        padding: "10px",
+                        borderRadius: "8px",
                         cursor: "pointer",
                         marginBottom: 0,
+                        fontWeight: "bold",
                       }}
                     >
                       Logout

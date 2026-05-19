@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import { CartContext } from "../context/CartContext";
@@ -11,6 +11,7 @@ function Shop() {
   const { addToWishlist } = useContext(WishlistContext);
   const [search, setSearch] = useState("");
 
+  const { house } = useParams();
   const [category, setCategory] = useState("All");
 
   const [sortOrder, setSortOrder] = useState("");
@@ -26,7 +27,15 @@ function Shop() {
     try {
       const response = await axios.get("http://localhost:5000/api/products");
 
-      setProducts(response.data);
+      if (house) {
+        const filteredProducts = response.data.filter((product) =>
+          product.name.toLowerCase().includes(house.toLowerCase()),
+        );
+
+        setProducts(filteredProducts);
+      } else {
+        setProducts(response.data);
+      }
     } catch (error) {
       console.log(error);
     }

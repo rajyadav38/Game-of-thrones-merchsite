@@ -1,6 +1,7 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 function Categories() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="categories-container">
@@ -17,7 +18,12 @@ function Categories() {
               <div className="card-body text-center bg-dark text-light">
                 <h5 className="card-title">House Stark</h5>
                 <p className="card-text">Winter is Coming ❄️</p>
-                <button className="btn btn-warning">View Items</button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/shop/stark")}
+                >
+                  View Items
+                </button>
               </div>
             </div>
           </div>
@@ -32,7 +38,12 @@ function Categories() {
               <div className="card-body text-center bg-dark text-light">
                 <h5 className="card-title">House Lannister</h5>
                 <p className="card-text">Hear Me Roar 🦁</p>
-                <button className="btn btn-warning">View Items</button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/shop/lannister")}
+                >
+                  View Items
+                </button>
               </div>
             </div>
           </div>
@@ -47,7 +58,12 @@ function Categories() {
               <div className="card-body text-center bg-dark text-light">
                 <h5 className="card-title">House Targaryen</h5>
                 <p className="card-text">Fire and Blood 🔥🐉</p>
-                <button className="btn btn-warning">View Items</button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/shop/targaryen")}
+                >
+                  View Items
+                </button>
               </div>
             </div>
           </div>
@@ -62,7 +78,12 @@ function Categories() {
               <div className="card-body text-center bg-dark text-light">
                 <h5 className="card-title">House Baratheon</h5>
                 <p className="card-text">Ours is the Fury 🦌</p>
-                <button className="btn btn-warning">View Items</button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => navigate("/shop/baratheon")}
+                >
+                  View Items
+                </button>
               </div>
             </div>
           </div>

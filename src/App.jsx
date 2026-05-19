@@ -15,6 +15,8 @@ import AdminOrders from "./pages/AdminOrders";
 import Orders from "./Pages/Orders";
 import ProductDetails from "./Pages/ProductDetails";
 import Wishlist from "./Pages/Wishlist";
+import Profile from "./Pages/Profile";
+import AdminMessages from "./Pages/AdminMessages";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -40,6 +42,7 @@ function App() {
           path="/shop"
           element={isLoggedIn ? <Shop /> : <Navigate to="/login" />}
         />
+        <Route path="/shop/:house" element={<Shop />} />
 
         <Route
           path="/categories"
@@ -58,6 +61,8 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/admin-messages" element={<AdminMessages />} />
       </Routes>
 
       {isLoggedIn && <Footer />}
