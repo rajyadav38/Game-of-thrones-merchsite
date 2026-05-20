@@ -25,7 +25,9 @@ function Shop() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get(
+        "https://got-merch.onrender.com/api/products",
+      );
 
       if (house) {
         const filteredProducts = response.data.filter((product) =>

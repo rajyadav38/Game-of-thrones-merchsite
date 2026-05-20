@@ -11,11 +11,14 @@ function AdminOrders() {
   const fetchOrders = async () => {
     const token = localStorage.getItem("token");
 
-    const response = await axios.get("http://localhost:5000/api/orders", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const response = await axios.get(
+      "https://got-merch.onrender.com/api/orders",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     setOrders(response.data);
   };
@@ -24,7 +27,7 @@ function AdminOrders() {
     const token = localStorage.getItem("token");
 
     await axios.put(
-      `http://localhost:5000/api/orders/${id}`,
+      `https://got-merch.onrender.com/api/orders/${id}`,
 
       { status },
 

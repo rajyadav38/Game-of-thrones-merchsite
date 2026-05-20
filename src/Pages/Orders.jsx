@@ -14,7 +14,7 @@ function Orders() {
     const token = localStorage.getItem("token");
 
     const response = await axios.get(
-      `http://localhost:5000/api/orders/user/${localStorage.getItem("email")}`,
+      `https://got-merch.onrender.com/api/orders/user/${localStorage.getItem("email")}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

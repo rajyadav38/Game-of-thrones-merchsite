@@ -11,7 +11,7 @@ import Signup from "./Pages/Signup";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Cart from "./Pages/Cart";
 import Checkout from "./Pages/Checkout";
-import AdminOrders from "./pages/AdminOrders";
+import AdminOrders from "./Pages/AdminOrders";
 import Orders from "./Pages/Orders";
 import ProductDetails from "./Pages/ProductDetails";
 import Wishlist from "./Pages/Wishlist";

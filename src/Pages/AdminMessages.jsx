@@ -14,7 +14,7 @@ function AdminMessages() {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/contact",
+        "https://got-merch.onrender.com/api/contact",
 
         {
           headers: {

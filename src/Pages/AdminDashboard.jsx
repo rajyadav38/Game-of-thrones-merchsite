@@ -20,7 +20,9 @@ function AdminDashboard() {
   }, []);
 
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:5000/api/products");
+    const response = await axios.get(
+      "https://got-merch.onrender.com/api/products",
+    );
 
     setProducts(response.data);
   };
@@ -39,7 +41,7 @@ function AdminDashboard() {
       // UPDATE
       if (editId) {
         await axios.put(
-          `http://localhost:5000/api/products/${editId}`,
+          `https://got-merch.onrender.com/api/products/${editId}`,
 
           product,
 
@@ -56,7 +58,7 @@ function AdminDashboard() {
       } else {
         // ADD
         await axios.post(
-          "http://localhost:5000/api/products/add",
+          "https://got-merch.onrender.com/api/products/add",
 
           product,
 
@@ -89,7 +91,7 @@ function AdminDashboard() {
 
   const handleDelete = async (id) => {
     await axios.delete(
-      `http://localhost:5000/api/products/${id}`,
+      `https://got-merch.onrender.com/api/products/${id}`,
 
       {
         headers: {

@@ -23,7 +23,7 @@ function ProductDetails() {
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/products/${id}`,
+        `https://got-merch.onrender.com/api/products/${id}`,
       );
 
       setProduct(response.data);
@@ -36,7 +36,7 @@ function ProductDetails() {
   const submitReview = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/products/review/${id}`,
+        `https://got-merch.onrender.com/api/products/review/${id}`,
         review,
       );
 

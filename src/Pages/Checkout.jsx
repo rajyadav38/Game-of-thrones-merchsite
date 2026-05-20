@@ -32,7 +32,7 @@ function Checkout() {
     const token = localStorage.getItem("token");
     try {
       await axios.post(
-        "http://localhost:5000/api/orders",
+        "https://got-merch.onrender.com/api/orders",
 
         {
           ...formData,

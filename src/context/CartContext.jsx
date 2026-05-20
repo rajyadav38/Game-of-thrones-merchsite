@@ -19,7 +19,7 @@ export const CartProvider = ({ children }) => {
       if (!email) return;
 
       const response = await axios.get(
-        `http://localhost:5000/api/auth/cart/${email}`,
+        `https://got-merch.onrender.com/api/auth/cart/${email}`,
       );
 
       setCart(response.data);
@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/cart/add",
+        "https://got-merch.onrender.com/api/auth/cart/add",
         {
           email,
           product,
@@ -51,7 +51,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (id) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/cart/remove",
+        "https://got-merch.onrender.com/api/auth/cart/remove",
         {
           email,
           productId: id,
@@ -71,7 +71,7 @@ export const CartProvider = ({ children }) => {
 
   const increaseQuantity = async (id) => {
     const response = await axios.put(
-      "http://localhost:5000/api/auth/cart/increase",
+      "https://got-merch.onrender.com/api/auth/cart/increase",
       {
         email,
         productId: id,
@@ -83,7 +83,7 @@ export const CartProvider = ({ children }) => {
 
   const decreaseQuantity = async (id) => {
     const response = await axios.put(
-      "http://localhost:5000/api/auth/cart/decrease",
+      "https://got-merch.onrender.com/api/auth/cart/decrease",
       {
         email,
         productId: id,

@@ -11,7 +11,9 @@ function Home() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get(
+        "https://got-merch.onrender.com/api/products",
+      );
 
       // SHOW ONLY FIRST 3 PRODUCTS
       setProducts(response.data.slice(0, 3));

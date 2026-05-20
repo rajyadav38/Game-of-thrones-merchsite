@@ -22,7 +22,10 @@ function Signup() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/api/auth/signup", formData);
+      await axios.post(
+        "https://got-merch.onrender.com/api/auth/signup",
+        formData,
+      );
       toast.success("Signup successful! Please login.");
       navigate("/login");
     } catch (error) {

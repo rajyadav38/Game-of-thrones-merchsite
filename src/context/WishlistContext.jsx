@@ -19,7 +19,7 @@ export const WishlistProvider = ({ children }) => {
       if (!email) return;
 
       const response = await axios.get(
-        `http://localhost:5000/api/auth/wishlist/${email}`,
+        `https://got-merch.onrender.com/api/auth/wishlist/${email}`,
       );
 
       setWishlist(response.data);
@@ -32,7 +32,7 @@ export const WishlistProvider = ({ children }) => {
   const addToWishlist = async (product) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/wishlist/add",
+        "https://got-merch.onrender.com/api/auth/wishlist/add",
         {
           email,
           product,
@@ -51,7 +51,7 @@ export const WishlistProvider = ({ children }) => {
   const removeFromWishlist = async (id) => {
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/auth/wishlist/remove",
+        "https://got-merch.onrender.com/api/auth/wishlist/remove",
         {
           email,
           productId: id,
