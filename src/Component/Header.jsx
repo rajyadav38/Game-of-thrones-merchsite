@@ -11,11 +11,14 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+
     localStorage.removeItem("role");
+
     localStorage.removeItem("email");
+
     localStorage.removeItem("isLoggedIn");
 
-    navigate("/login");
+    navigate("/");
 
     window.location.reload();
   };
